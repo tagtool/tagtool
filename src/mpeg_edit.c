@@ -44,7 +44,7 @@ static GtkEntry *ent_id3v1_album = NULL;
 static GtkEntry *ent_id3v1_year = NULL;
 static GtkEntry *ent_id3v1_comment = NULL;
 static GtkSpinButton *spin_id3v1_track = NULL;
-static GtkCombo *combo_id3v1_genre = NULL;
+static GtkComboBox *combo_id3v1_genre = NULL;
 static GtkLabel *lab_id3v1_title = NULL;
 static GtkLabel *lab_id3v1_artist = NULL;
 static GtkLabel *lab_id3v1_album = NULL;
@@ -60,7 +60,7 @@ static GtkEntry *ent_id3v2_album = NULL;
 static GtkEntry *ent_id3v2_year = NULL;
 static GtkTextView *text_id3v2_comment = NULL;
 static GtkEntry *ent_id3v2_track = NULL;
-static GtkCombo *combo_id3v2_genre = NULL;
+static GtkComboBox *combo_id3v2_genre = NULL;
 static GtkLabel *lab_id3v2_title = NULL;
 static GtkLabel *lab_id3v2_artist = NULL;
 static GtkLabel *lab_id3v2_album = NULL;
@@ -202,7 +202,7 @@ static void update_form_v1()
 	const gchar *str;
 
 	if (mpeg_file_has_tag_v(file, ID3TT_ID3V1)) {
-		gtk_notebook_set_page(nb_id3v1, TAB_ID3V1_TAG);
+		gtk_notebook_set_current_page(nb_id3v1, TAB_ID3V1_TAG);
 
 		ignore_changed_signals = TRUE;
 		mpeg_file_get_field_v(file, ID3TT_ID3V1, AF_TITLE, &str);
@@ -218,11 +218,11 @@ static void update_form_v1()
 		mpeg_file_get_field_v(file, ID3TT_ID3V1, AF_TRACK, &str);
 		gtk_spin_button_set_value(spin_id3v1_track, atoi(str));
 		mpeg_file_get_field_v(file, ID3TT_ID3V1, AF_GENRE, &str);
-		gtk_entry_set_text(GTK_ENTRY(combo_id3v1_genre->entry), str);
+		gtk_entry_set_text(GTK_ENTRY(combo_id3v1_genre), str);
 		ignore_changed_signals = FALSE;
 	}
 	else {
-		gtk_notebook_set_page(nb_id3v1, TAB_ID3V1_NOTAG);
+		gtk_notebook_set_current_page(nb_id3v1, TAB_ID3V1_NOTAG);
 	}
 
 	set_editable_flag(audio_file_is_editable((audio_file *)file));
@@ -233,7 +233,7 @@ static void update_form_v2()
 	const gchar *str;
 
 	if (mpeg_file_has_tag_v(file, ID3TT_ID3V2)) {
-		gtk_notebook_set_page(nb_id3v2, *current_tab);
+		gtk_notebook_set_current_page(nb_id3v2, *current_tab);
 		
 		if (*current_tab == TAB_ID3V2_SIMPLE) {
 			int extra_fields;
@@ -257,7 +257,7 @@ static void update_form_v2()
 			mpeg_file_get_field_v(file, ID3TT_ID3V2, AF_TRACK, &str);
 			gtk_entry_set_text(ent_id3v2_track, str);
 			mpeg_file_get_field_v(file, ID3TT_ID3V2, AF_GENRE, &str);
-			gtk_entry_set_text(GTK_ENTRY(combo_id3v2_genre->entry), str);
+			gtk_entry_set_text(GTK_ENTRY(combo_id3v2_genre), str);
 			ignore_changed_signals = FALSE;
 
 			/* Show in the "Advanced" button label how many fields are not visible */
@@ -322,7 +322,7 @@ static void update_form_v2()
 		}
 	}
 	else {
-		gtk_notebook_set_page(nb_id3v2, TAB_ID3V2_NOTAG);
+		gtk_notebook_set_current_page(nb_id3v2, TAB_ID3V2_NOTAG);
 	}
 
 	set_editable_flag(audio_file_is_editable((audio_file *)file));
@@ -336,7 +336,7 @@ static void update_tag_from_form_v1(int tag)
 	mpeg_file_set_field_v(file, tag, AF_YEAR, gtk_entry_get_text(ent_id3v1_year));
 	mpeg_file_set_field_v(file, tag, AF_COMMENT, gtk_entry_get_text(ent_id3v1_comment));
 	mpeg_file_set_field_v(file, tag, AF_TRACK, gtk_entry_get_text(GTK_ENTRY(spin_id3v1_track)));
-	mpeg_file_set_field_v(file, tag, AF_GENRE, gtk_entry_get_text(GTK_ENTRY(combo_id3v1_genre->entry)));
+	mpeg_file_set_field_v(file, tag, AF_GENRE, gtk_entry_get_text(GTK_ENTRY(combo_id3v1_genre)));
 }
 
 static void update_tag_from_form_v2(int tag)
@@ -350,7 +350,7 @@ static void update_tag_from_form_v2(int tag)
 		mpeg_file_set_field_v(file, tag, AF_ALBUM, gtk_entry_get_text(ent_id3v2_album));
 		mpeg_file_set_field_v(file, tag, AF_YEAR, gtk_entry_get_text(ent_id3v2_year));
 		mpeg_file_set_field_v(file, tag, AF_TRACK, gtk_entry_get_text(ent_id3v2_track));
-		mpeg_file_set_field_v(file, tag, AF_GENRE, gtk_entry_get_text(GTK_ENTRY(combo_id3v2_genre->entry)));
+		mpeg_file_set_field_v(file, tag, AF_GENRE, gtk_entry_get_text(GTK_ENTRY(combo_id3v2_genre)));
 
 		gtk_text_buffer_get_bounds(gtk_text_view_get_buffer(text_id3v2_comment), &start, &end);
 		temp = gtk_text_buffer_get_text(gtk_text_view_get_buffer(text_id3v2_comment), &start, &end, FALSE);
@@ -391,12 +391,12 @@ static void update_tabs(gboolean allow_change)
 		gtk_widget_set_sensitive(GTK_WIDGET(m_id3_copyv2tov1), FALSE);
 	}
 
-	gtk_notebook_set_page(nb_edit, tab_edit_id3);
+	gtk_notebook_set_current_page(nb_edit, tab_edit_id3);
 	if (allow_change) {
 		if (mpeg_file_has_tag_v(file, ID3TT_ID3V2))
-			gtk_notebook_set_page(nb_id3, TAB_ID3_V2);
+			gtk_notebook_set_current_page(nb_id3, TAB_ID3_V2);
 		else
-			gtk_notebook_set_page(nb_id3, TAB_ID3_V1);
+			gtk_notebook_set_current_page(nb_id3, TAB_ID3_V1);
 	}
 }
 
@@ -407,7 +407,7 @@ static void write_to_file()
 	cursor_set_wait();
 
 	if (mpeg_file_has_tag_v(file, ID3TT_ID3V2)) {
-		const char *genre = gtk_entry_get_text(GTK_ENTRY(combo_id3v2_genre->entry));
+		const char *genre = gtk_entry_get_text(GTK_ENTRY(combo_id3v2_genre));
 		if (strcmp(genre, "") != 0)
 			mru_add(genre_mru, genre);
 	}
@@ -598,7 +598,7 @@ void cb_id3v2_view_simple(GtkWidget *widget, GdkEvent *event)
 		*current_tab = TAB_ID3V2_SIMPLE;
 		if (gtk_notebook_get_current_page(nb_id3v2) != TAB_ID3V2_NOTAG) {
 			update_form_v2();
-			gtk_notebook_set_page(nb_id3v2, TAB_ID3V2_SIMPLE);
+			gtk_notebook_set_current_page(nb_id3v2, TAB_ID3V2_SIMPLE);
 		}
 	}
 }
@@ -611,7 +611,7 @@ void cb_id3v2_view_advanced(GtkWidget *widget, GdkEvent *event)
 		*current_tab = TAB_ID3V2_ADVANCED;
 		if (gtk_notebook_get_current_page(nb_id3v2) != TAB_ID3V2_NOTAG) {
 			update_form_v2();
-			gtk_notebook_set_page(nb_id3v2, TAB_ID3V2_ADVANCED);
+			gtk_notebook_set_current_page(nb_id3v2, TAB_ID3V2_ADVANCED);
 		}
 	}
 }
@@ -714,7 +714,7 @@ void mpeg_edit_init(GladeXML *xml)
 	ent_id3v1_year = GTK_ENTRY(glade_xml_get_widget(xml, "ent_id3v1_year"));
 	ent_id3v1_comment = GTK_ENTRY(glade_xml_get_widget(xml, "ent_id3v1_comment"));
 	spin_id3v1_track = GTK_SPIN_BUTTON(glade_xml_get_widget(xml, "spin_id3v1_track"));
-	combo_id3v1_genre = GTK_COMBO(glade_xml_get_widget(xml, "combo_id3v1_genre"));
+	combo_id3v1_genre = GTK_COMBO_BOX(glade_xml_get_widget(xml, "combo_id3v1_genre"));
 	lab_id3v1_title = GTK_LABEL(glade_xml_get_widget(xml, "lab_id3v1_title"));
 	lab_id3v1_artist = GTK_LABEL(glade_xml_get_widget(xml, "lab_id3v1_artist"));
 	lab_id3v1_album = GTK_LABEL(glade_xml_get_widget(xml, "lab_id3v1_album"));
@@ -730,7 +730,7 @@ void mpeg_edit_init(GladeXML *xml)
 	ent_id3v2_year = GTK_ENTRY(glade_xml_get_widget(xml, "ent_id3v2_year"));
 	text_id3v2_comment = GTK_TEXT_VIEW(glade_xml_get_widget(xml, "text_id3v2_comment"));
 	ent_id3v2_track = GTK_ENTRY(glade_xml_get_widget(xml, "ent_id3v2_track"));
-	combo_id3v2_genre = GTK_COMBO(glade_xml_get_widget(xml, "combo_id3v2_genre"));
+	combo_id3v2_genre = GTK_COMBO_BOX(glade_xml_get_widget(xml, "combo_id3v2_genre"));
 	lab_id3v2_title = GTK_LABEL(glade_xml_get_widget(xml, "lab_id3v2_title"));
 	lab_id3v2_artist = GTK_LABEL(glade_xml_get_widget(xml, "lab_id3v2_artist"));
 	lab_id3v2_album = GTK_LABEL(glade_xml_get_widget(xml, "lab_id3v2_album"));

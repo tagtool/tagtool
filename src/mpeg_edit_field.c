@@ -44,8 +44,8 @@ static void set_ui(int mode, mpeg_file *file, int tag_version, ID3Frame *frame)
 
 		title = _("New ID3 Field");
 		widget = gtk_combo_new();
-		gtk_combo_set_value_in_list(GTK_COMBO(widget), TRUE, FALSE);
-		gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry), FALSE);
+		gtk_combo_set_value_in_list(GTK_COMBO_BOX(widget), TRUE, FALSE);
+		gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO_BOX(widget)), FALSE);
 
 		frame_id_table = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -63,7 +63,7 @@ static void set_ui(int mode, mpeg_file *file, int tag_version, ID3Frame *frame)
 			g_elist_append(strings, display_name);
 		}
 		g_elist_sort(strings, (GCompareFunc)strcoll);
-		gtk_combo_set_popdown_strings(GTK_COMBO(widget), GLIST(strings));
+		gtk_combo_set_popdown_strings(GTK_COMBO_BOX(widget), GLIST(strings));
 		g_elist_free(strings);
 	}
 	else {
@@ -115,7 +115,7 @@ static void create_frame(mpeg_file *file, int tag_version)
 		tag = file->v2_tag;
 
 	frame_id = (int)g_hash_table_lookup(frame_id_table, 
-					    gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry)));
+					    gtk_entry_get_text(GTK_ENTRY(GTK_COMBO_BOX(widget))));
 	new_frame = ID3Frame_NewID(frame_id);
 	ID3Tag_AttachFrame(tag, new_frame);
 

@@ -27,7 +27,7 @@ static GtkWidget *widget;  /* dinamically created "field" widget */
 
 /*** private functions ******************************************************/
 
-static void fill_names_combo(GtkCombo *combo)
+static void fill_names_combo(GtkComboBox *combo)
 {
 	const char **name_array;
 	GEList *name_list;
@@ -52,8 +52,8 @@ static void set_ui(int mode, vorbis_file *file, const char *name)
 	const char *value;
 
 	widget = gtk_combo_new();
-	gtk_combo_set_value_in_list(GTK_COMBO(widget), FALSE, FALSE);
-	fill_names_combo(GTK_COMBO(widget));
+	gtk_combo_set_value_in_list(GTK_COMBO_BOX(widget), FALSE, FALSE);
+	fill_names_combo(GTK_COMBO_BOX(widget));
 
 	if (mode == MODE_CREATE) {
 		title = _("New Vorbis Field");
@@ -61,7 +61,7 @@ static void set_ui(int mode, vorbis_file *file, const char *name)
 	else {
 		title = _("Edit Vorbis Field");
 
-		gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(widget)->entry), name);
+		gtk_entry_set_text(GTK_ENTRY(GTK_COMBO_BOX(widget)), name);
 
 		vorbis_file_get_field_by_name(file, name, &value);
 		gtk_entry_set_text(entry, value);
@@ -84,7 +84,7 @@ static void clear_ui()
 
 static void update_comments(int mode, vorbis_file *file, const char *orig_name)
 {
-	char *name = gtk_editable_get_chars(GTK_EDITABLE(GTK_COMBO(widget)->entry), 0, -1);
+	char *name = gtk_editable_get_chars(GTK_EDITABLE(GTK_COMBO_BOX(widget)), 0, -1);
 	char *value = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, -1);
 
 	str_ascii_tolower(name);

@@ -151,7 +151,7 @@ void chconv_display(int tab)
 	from_prefs();
 
 	gtk_window_present(dlg_char_conv);
-	gtk_notebook_set_page(nb_char_conv, tab);
+	gtk_notebook_set_current_page(nb_char_conv, tab);
 }
 
 

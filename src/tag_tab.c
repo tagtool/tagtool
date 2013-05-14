@@ -54,7 +54,7 @@ typedef struct {
 
 
 /* widgets */
-static GtkCombo *combo_tag_format = NULL;
+static GtkComboBox *combo_tag_format = NULL;
 static GtkEntry *ent_tag_format = NULL;
 static GtkButton *b_tag_edit_format = NULL;
 static GtkCheckButton *cb_use_filename = NULL;
@@ -74,7 +74,7 @@ static GtkEntry *ent_year = NULL;
 static GtkEntry *ent_comment = NULL;
 static GtkEntry *ent_track = NULL;
 static GtkCheckButton *cb_track_auto = NULL;
-static GtkCombo *combo_genre = NULL;
+static GtkComboBox *combo_genre = NULL;
 static GtkEntry *ent_genre = NULL;
 static GtkWindow *w_main = NULL;
 
@@ -407,7 +407,7 @@ static void tag_files(GEList *file_list)
 				audio_file_set_field(af, AF_TRACK, gtk_entry_get_text(ent_track));
 		}
 		if (write_genre && !(from_fn_genre && *use_filename))
-			audio_file_set_field(af, AF_GENRE, gtk_entry_get_text(GTK_ENTRY(combo_genre->entry)));
+			audio_file_set_field(af, AF_GENRE, gtk_entry_get_text(GTK_ENTRY(combo_genre)));
 
 		/* fill in the values from the file name */
 		if (pi != NULL) {
@@ -684,7 +684,7 @@ void tt_init(GladeXML *xml)
 	 * get the widgets from glade
 	 */
 
-	combo_tag_format = GTK_COMBO(glade_xml_get_widget(xml, "combo_tag_format"));
+	combo_tag_format = GTK_COMBO_BOX(glade_xml_get_widget(xml, "combo_tag_format"));
 	ent_tag_format = GTK_ENTRY(glade_xml_get_widget(xml, "ent_tag_format"));
 	b_tag_edit_format = GTK_BUTTON(glade_xml_get_widget(xml, "b_tag_edit_format"));
 	cb_use_filename = GTK_CHECK_BUTTON(glade_xml_get_widget(xml, "cb_use_filename"));
@@ -706,7 +706,7 @@ void tt_init(GladeXML *xml)
 	ent_comment = GTK_ENTRY(glade_xml_get_widget(xml, "ent_comment2"));
 	ent_track = GTK_ENTRY(glade_xml_get_widget(xml, "ent_track2"));
 	cb_track_auto = GTK_CHECK_BUTTON(glade_xml_get_widget(xml, "cb_track_auto"));
-	combo_genre = GTK_COMBO(glade_xml_get_widget(xml, "combo_genre2"));
+	combo_genre = GTK_COMBO_BOX(glade_xml_get_widget(xml, "combo_genre2"));
 	ent_genre = GTK_ENTRY(glade_xml_get_widget(xml, "ent_genre2"));
 
 	w_main = GTK_WINDOW(glade_xml_get_widget(xml, "w_main"));

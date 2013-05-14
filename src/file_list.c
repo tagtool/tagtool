@@ -36,7 +36,7 @@
 /* widgets */
 static GtkWindow *w_main = NULL;
 
-static GtkCombo *combo_wd = NULL;
+static GtkComboBox *combo_wd = NULL;
 static GtkEntry *ent_wd = NULL;
 static GtkToggleButton *cb_recurse = NULL;
 static GtkDialog *dlg_wd_select = NULL;
@@ -432,7 +432,7 @@ void cb_ctx_manual_rename(GtkWidget *widget, GdkEvent *event)
 
 	gtk_tree_view_get_first_selected(tv_files, &model, &iter);
 	gtk_tree_model_get(model, &iter, 4, &old_path, -1);
-	new_name = rename_prompt_new_name(g_basename(old_path));
+	new_name = rename_prompt_new_name(g_path_get_basename(old_path));
 	if (new_name == NULL)
 		return;
 
@@ -609,7 +609,7 @@ void fl_init(GladeXML *xml)
 	 * get the widgets from glade
 	 */
 	w_main = GTK_WINDOW(glade_xml_get_widget(xml, "w_main"));
-	combo_wd = GTK_COMBO(glade_xml_get_widget(xml, "combo_wd"));
+	combo_wd = GTK_COMBO_BOX(glade_xml_get_widget(xml, "combo_wd"));
 	ent_wd = GTK_ENTRY(glade_xml_get_widget(xml, "ent_wd"));
 	cb_recurse = GTK_TOGGLE_BUTTON(glade_xml_get_widget(xml, "cb_recurse"));
 	tv_files = GTK_TREE_VIEW(glade_xml_get_widget(xml, "tv_files"));

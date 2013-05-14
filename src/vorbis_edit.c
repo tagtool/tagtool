@@ -36,7 +36,7 @@ static GtkEntry *ent_album = NULL;
 static GtkEntry *ent_year = NULL;
 static GtkEntry *ent_comment = NULL;
 static GtkEntry *ent_track = NULL;
-static GtkCombo *combo_genre = NULL;
+static GtkComboBox *combo_genre = NULL;
 static GtkLabel *lab_title = NULL;
 static GtkLabel *lab_artist = NULL;
 static GtkLabel *lab_album = NULL;
@@ -189,7 +189,7 @@ static void update_form_simple()
 	vorbis_file_get_field(file, AF_YEAR, &str);    gtk_entry_set_text(ent_year, str);
 	vorbis_file_get_field(file, AF_COMMENT, &str); gtk_entry_set_text(ent_comment, str);
 	vorbis_file_get_field(file, AF_TRACK, &str);   gtk_entry_set_text(ent_track, str);
-	vorbis_file_get_field(file, AF_GENRE, &str);   gtk_entry_set_text(GTK_ENTRY(combo_genre->entry), str);
+	vorbis_file_get_field(file, AF_GENRE, &str);   gtk_entry_set_text(GTK_ENTRY(combo_genre), str);
 	ignore_changed_signals = FALSE;
 
 	extra_fields = 0;
@@ -252,7 +252,7 @@ static void update_tag()
 		vorbis_file_set_field(file, AF_YEAR, gtk_entry_get_text(ent_year));
 		vorbis_file_set_field(file, AF_COMMENT, gtk_entry_get_text(ent_comment));
 		vorbis_file_set_field(file, AF_TRACK, gtk_entry_get_text(ent_track));
-		vorbis_file_set_field(file, AF_GENRE, gtk_entry_get_text(GTK_ENTRY(combo_genre->entry)));
+		vorbis_file_set_field(file, AF_GENRE, gtk_entry_get_text(GTK_ENTRY(combo_genre)));
 	}
 	else {
 		/* Nothing to do here, advanced mode alters tag directly */
@@ -267,7 +267,7 @@ static void write_to_file()
 
 	cursor_set_wait();
 
-	genre = gtk_entry_get_text(GTK_ENTRY(combo_genre->entry));
+	genre = gtk_entry_get_text(GTK_ENTRY(combo_genre));
 	if (strcmp(genre, "") != 0)
 		mru_add(genre_mru, genre);
 
@@ -325,7 +325,7 @@ void cb_vor_view_simple(GtkWidget *widget, GdkEvent *event)
 		update_tag();
 		*current_tab = TAB_SIMPLE;
 		update_form();
-		gtk_notebook_set_page(nb_vorbis, *current_tab);
+		gtk_notebook_set_current_page(nb_vorbis, *current_tab);
 	}
 }
 
@@ -335,7 +335,7 @@ void cb_vor_view_advanced(GtkWidget *widget, GdkEvent *event)
 		update_tag();
 		*current_tab = TAB_ADVANCED;
 		update_form();
-		gtk_notebook_set_page(nb_vorbis, *current_tab);
+		gtk_notebook_set_current_page(nb_vorbis, *current_tab);
 	}
 }
 
@@ -441,8 +441,8 @@ void vorbis_edit_load(vorbis_file *f)
 	set_editable_flag(audio_file_is_editable((audio_file *)file));
 	set_changed_flag(FALSE);
 
-	gtk_notebook_set_page(nb_edit, tab_edit_vorbis);
-	gtk_notebook_set_page(nb_vorbis, *current_tab);
+	gtk_notebook_set_current_page(nb_edit, tab_edit_vorbis);
+	gtk_notebook_set_current_page(nb_vorbis, *current_tab);
 }
 
 
@@ -491,7 +491,7 @@ void vorbis_edit_init(GladeXML *xml)
 	ent_year = GTK_ENTRY(glade_xml_get_widget(xml, "ent_vor_year"));
 	ent_comment = GTK_ENTRY(glade_xml_get_widget(xml, "ent_vor_comment"));
 	ent_track = GTK_ENTRY(glade_xml_get_widget(xml, "ent_vor_track"));
-	combo_genre = GTK_COMBO(glade_xml_get_widget(xml, "combo_vor_genre"));
+	combo_genre = GTK_COMBO_BOX(glade_xml_get_widget(xml, "combo_vor_genre"));
 	lab_title = GTK_LABEL(glade_xml_get_widget(xml, "lab_vor_title"));
 	lab_artist = GTK_LABEL(glade_xml_get_widget(xml, "lab_vor_artist"));
 	lab_album = GTK_LABEL(glade_xml_get_widget(xml, "lab_vor_album"));

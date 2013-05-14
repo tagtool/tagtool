@@ -33,7 +33,7 @@ enum {
 
 
 /* widgets */
-static GtkCombo *combo_rename_format = NULL;
+static GtkComboBox *combo_rename_format = NULL;
 static GtkEntry *ent_rename_format = NULL;
 static GtkButton *b_rename_edit_format = NULL;
 static GtkButton *b_rename_go = NULL;
@@ -393,7 +393,7 @@ void rt_init(GladeXML *xml)
 	 * get the widgets from glade
 	 */
 
-	combo_rename_format = GTK_COMBO(glade_xml_get_widget(xml, "combo_rename_format"));
+	combo_rename_format = GTK_COMBO_BOX(glade_xml_get_widget(xml, "combo_rename_format"));
 	ent_rename_format = GTK_ENTRY(glade_xml_get_widget(xml, "ent_rename_format"));
 	b_rename_edit_format = GTK_BUTTON(glade_xml_get_widget(xml, "b_rename_edit_format"));
 	b_rename_go = GTK_BUTTON(glade_xml_get_widget(xml, "b_rename_go"));

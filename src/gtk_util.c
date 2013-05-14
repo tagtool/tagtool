@@ -55,13 +55,13 @@ gboolean gtk_tree_view_get_first_selected(GtkTreeView *tree, GtkTreeModel **mode
 void gtk_editable_set_max_chars(GtkEditable *editable, guint max_chars)
 {
 	if (max_chars > 0) {
-		gtk_signal_connect_after(GTK_OBJECT(editable), "insert_text",
-					 GTK_SIGNAL_FUNC(cb_enforce_max_chars),
+		g_signal_connect_after(GTK_OBJECT(editable), "insert_text",
+					 G_CALLBACK(cb_enforce_max_chars),
 					 (gpointer)max_chars);
 	}
 	else {
 		gulong id = g_signal_handler_find(GTK_OBJECT(editable), G_SIGNAL_MATCH_FUNC,
-						  0, 0, 0, GTK_SIGNAL_FUNC(cb_enforce_max_chars), 0);
+						  0, 0, 0, G_CALLBACK(cb_enforce_max_chars), 0);
 		if (id > 0)
 			g_signal_handler_disconnect(GTK_OBJECT(editable), id);
 	}

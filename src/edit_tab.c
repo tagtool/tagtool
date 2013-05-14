@@ -29,7 +29,7 @@ static audio_file *af = NULL;
 
 /*** UI callbacks ***********************************************************/
 
-void cb_notebook_switch(GtkNotebook *nb, GtkNotebookPage *page, gint page_num, gpointer user_data)
+void cb_notebook_switch(GtkNotebook *nb, gint page_num, gpointer user_data)
 {
 	static gint last = 0;
 
@@ -147,7 +147,7 @@ void et_load_file(const gchar *name)
 	/* display the appropriate edit interface */
 	audio_file_edit_load(af);
 
-	gtk_notebook_set_page(nb_file, 1);
+	gtk_notebook_set_current_page(nb_file, 1);
 }
 
 
@@ -159,7 +159,7 @@ void et_unload_file()
 		audio_file_edit_unload(temp);
 		audio_file_delete(temp);
 
-		gtk_notebook_set_page(nb_file, 0);
+		gtk_notebook_set_current_page(nb_file, 0);
 	}
 }
 

@@ -9,7 +9,7 @@ Known Bugs:
   being set to non-empty values  (Appears to be another id3lib bug)
 
 
-Find a bug not listed here?  Send me a message (paol1976@yahoo.com). 
+Find a bug not listed here? Fill a ticket at https://github.com/cookiekiller/tagtool/issues
 Please include a reasonably detailed description of the problem.  Mention 
 at least your OS version, how you installed tagtool (from source, distro 
 package, etc.) and how to reproduce the problem.

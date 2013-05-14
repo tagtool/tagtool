@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-
+CFLAGS="-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
 
 AC_INIT(tagtool, 0.12.3)
 AM_INIT_AUTOMAKE(${PACKAGE_NAME}, ${PACKAGE_VERSION})

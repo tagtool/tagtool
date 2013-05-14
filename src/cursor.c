@@ -9,7 +9,7 @@ static GtkWidget *w_main = NULL;
 
 static void set_cursor(GtkWidget *widget, GdkCursor *cursor)
 {
-	gdk_window_set_cursor(widget->window, cursor);
+	gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 
 	/* process events or we won't see the change */
 	while (gtk_events_pending()) gtk_main_iteration();

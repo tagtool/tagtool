@@ -718,7 +718,6 @@ void fl_set_working_dir(const gchar *dir)
 	
 	/* update the directory mru list */
 	mru_add(dir_mru, working_dir_utf8->str);
-	gtk_combo_set_popdown_strings(combo_wd, GLIST(dir_mru->list));
 
 
 	if (check_working_dir())
@@ -761,7 +760,6 @@ void fl_set_working_dir_utf8(const gchar *dir)
 	
 	/* update the directory mru list */
 	mru_add(dir_mru, working_dir_utf8->str);
-	gtk_combo_set_popdown_strings(combo_wd, GLIST(dir_mru->list));
 
 
 	if (check_working_dir())
@@ -799,7 +797,7 @@ void fl_refresh(gboolean keep_scroll_pos)
 		load_file_list();
 
 	if (keep_scroll_pos) {
-		if (saved_value <= adj->upper)
+		if (saved_value <= gtk_adjustment_get_upper(adj))
 			gtk_adjustment_set_value(adj, saved_value);
 	}
 }

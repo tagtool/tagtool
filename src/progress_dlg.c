@@ -156,6 +156,6 @@ void pd_scroll_to_bottom()
 	GtkAdjustment *adj;
 
 	adj = gtk_tree_view_get_vadjustment(tv_progress);
-	gtk_adjustment_set_value(adj, adj->upper);
+	gtk_adjustment_set_value(adj, gtk_adjustment_get_upper(adj));
 }
 
